@@ -37,7 +37,7 @@ if __name__ == '__main__':
             os_p_move[i, :] += np.random.randn(2) * sigma
         return os_p_move
 
-    os_move = os_mearsurement([-2, -5],[-1, 6],15,sigma=0.001)
+    os_move = os_mearsurement([-2, -5],[-1, 6],1000,sigma=0.001)
     f = KF(0.2)
     print('\n')
     for pt in os_move:

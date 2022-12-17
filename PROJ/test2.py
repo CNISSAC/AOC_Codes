@@ -2,10 +2,12 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from DDP_moving_obstacles import DDP
+from Collocation import collocation
 # from kalmanfilter import KalmanFilter
 from kalmanfilter2 import KF
 import time
 DDP = DDP()
+collocation=collocation()
 
 
 def observe(kfs,measures,is_new,radius):
@@ -107,7 +109,8 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
             os_p_m[i,:,:]= np.concatenate((first_seg, remained_seg), axis=0)
             os_r_m[i]=radius[keys[i]]
 
-        xs_, N = DDP.trajectory(t, update_rate, control_rate, x0, os_p, os_r, os_p_m, os_r_m)
+        # xs_, N = DDP.trajectory(t, update_rate, control_rate, x0, os_p, os_r, os_p_m, os_r_m)
+        xs_ = collocation.trajectory(t, update_rate, control_rate, x0, os_p, os_r, os_p_m, os_r_m)
         # fig, axs = plt.subplots()
         # plt.plot(xs_[0,:], xs_[1, :])
         # plt.show()
@@ -146,4 +149,4 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
 
     plt.show()
 
-fun(TF=3,update_rate=5,control_rate=30)
+fun(TF=3,update_rate=5,control_rate=20)

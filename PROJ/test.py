@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from DDP_moving_obstacles import DDP
 # from kalmanfilter import KalmanFilter
 from kalmanfilter2 import KF
+import time
 DDP = DDP()
 
 
@@ -107,6 +108,10 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
             os_r_m[i]=radius[keys[i]]
 
         xs_, N = DDP.trajectory(t, update_rate, control_rate, x0, os_p, os_r, os_p_m, os_r_m)
+        fig, axs = plt.subplots()
+        plt.plot(xs_[0,:], xs_[1, :])
+        plt.show()
+        time.sleep(0.5)
         xs[:, k*n+1: (k+1)*n+1] = xs_[:, 1:n+1]
         if k < k_range-1:
             x0=xs_[:, n+1]
@@ -141,4 +146,4 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
 
     plt.show()
 
-fun(TF=3,update_rate=5,control_rate=20)
+fun(TF=3,update_rate=5,control_rate=30)

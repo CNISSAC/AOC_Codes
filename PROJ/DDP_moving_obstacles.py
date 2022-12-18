@@ -22,7 +22,7 @@ class DDP:
     self.m = 2
 
     # cost function specification
-    self.Q = np.diag([1, 1, 0, 0, 0])
+    self.Q = np.diag([0, 0, 0, 0, 0])
     self.R = np.diag([1, 1])
     self.Pf = np.diag([100, 100, 1, 1, 1])
 

@@ -147,5 +147,5 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
 
     plt.show()
 
-fun(TF=3,update_rate=5,control_rate=20)
+fun(TF=2,update_rate=5,control_rate=20)
 print('程序运行时间:%s毫秒' % ((T2 - T1)*1000))

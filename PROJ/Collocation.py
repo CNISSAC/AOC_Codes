@@ -15,7 +15,7 @@ class collocation:
     self.h = self.tf / self.N
 
     # cost function parameters
-    self.Q = np.diag([1, 1, 0, 0, 0])
+    self.Q = np.diag([0, 0, 0, 0, 0])
     self.R = np.diag([1, 1])
     self.Qf = np.diag([5, 5, 1, 1, 1])
 

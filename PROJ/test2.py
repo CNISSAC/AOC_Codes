@@ -6,6 +6,8 @@ from Collocation import collocation
 # from kalmanfilter import KalmanFilter
 from kalmanfilter2 import KF
 import time
+T1 = time.time()
+T2 = 0
 DDP = DDP()
 collocation=collocation()
 
@@ -84,6 +86,7 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
         is_new[i] = True
         radius[i] = os_r_move[i]
         measures[i] = os_p_move[i, 0, :]
+
     for k in range(0, k_range):
         t = TF - k / update_rate
 
@@ -109,7 +112,11 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
             os_p_m[i,:,:]= np.concatenate((first_seg, remained_seg), axis=0)
             os_r_m[i]=radius[keys[i]]
 
-        # xs_, N = DDP.trajectory(t, update_rate, control_rate, x0, os_p, os_r, os_p_m, os_r_m)
+        # if k == 0:
+        #     xs_ini, us_ini = DDP.trajectory(t, update_rate, control_rate, x0, os_p, os_r, os_p_m, os_r_m)
+        #     xs_ = collocation.trajectory(t, update_rate, control_rate, x0, os_p, os_r, os_p_m, os_r_m,xs_ini, us_ini)
+        #
+        # else:
         xs_ = collocation.trajectory(t, update_rate, control_rate, x0, os_p, os_r, os_p_m, os_r_m)
         # fig, axs = plt.subplots()
         # plt.plot(xs_[0,:], xs_[1, :])
@@ -117,8 +124,10 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
         # time.sleep(0.5)
         xs[:, k*n+1: (k+1)*n+1] = xs_[:, 1:n+1]
         if k < k_range-1:
-            x0=xs_[:, n+1]
+            x0=xs_[:, n]
 
+    T2 = time.time()
+    T = T2 - T1
 
     # print figures
     fig, axs = plt.subplots()
@@ -149,4 +158,4 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
 
     plt.show()
 
-fun(TF=3,update_rate=5,control_rate=20)
+fun(TF=2,update_rate=5,control_rate=20)

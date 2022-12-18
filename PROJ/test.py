@@ -5,9 +5,9 @@ from DDP_moving_obstacles import DDP
 # from kalmanfilter import KalmanFilter
 from kalmanfilter2 import KF
 import time
+T1 = time.time()
 DDP = DDP()
-
-
+T2 = 0
 def observe(kfs,measures,is_new,radius):
     predicts={}
     for i in kfs.keys():
@@ -61,7 +61,7 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
     # generate random measurements of moving obstacle
     os_p_move=np.zeros((3,num_measurment,2))
     os_p_move[0,:,:] = os_mearsurement([-2, -5],[-1, 6],num_measurment,sigma=0.001)
-    os_p_move[1,:,:] = os_mearsurement([1, 10], [2, -5], num_measurment, sigma=0.001)
+    os_p_move[1,:,:] = os_mearsurement([2, 10], [-2, -5], num_measurment, sigma=0.001)
     os_p_move[2, math.ceil(num_measurment/2):, :] = os_mearsurement([3, -6], [-4, 7], num_measurment-math.ceil(num_measurment/2),sigma= 0.001)
     os_r_move = [0.25, 2, 2]
     # predicted positions of moving obstacles
@@ -116,7 +116,8 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
         if k < k_range-1:
             x0=xs_[:, n+1]
 
-
+    global T2
+    T2 = time.time()
     # print figures
     fig, axs = plt.subplots()
     for j in range(len(os_r)):  # plot the position of static obstacles
@@ -147,3 +148,4 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
     plt.show()
 
 fun(TF=3,update_rate=5,control_rate=30)
+print('程序运行时间:%s毫秒' % ((T2 - T1)*1000))

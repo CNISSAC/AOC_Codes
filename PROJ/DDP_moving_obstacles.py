@@ -22,16 +22,16 @@ class DDP:
     self.m = 2
 
     # cost function specification
-    self.Q = np.diag([0, 0, 0, 0, 0])
+    self.Q = np.diag([1, 1, 0, 0, 0])
     self.R = np.diag([1, 1])
     self.Pf = np.diag([100, 100, 1, 1, 1])
 
     self.mu = 1
     # set obstacles and penalty coefficient
     self.os_p = [[-2.5, 2], [-1, 0]]
-    self.os_r = [1, 0]
-    self.os_p_move = np.stack((np.linspace([0, 3], [1, 0], self.N), np.linspace([2, 5], [-1, -2], self.N)), axis=0)
-    self.os_r_move = [0.25, 1.5]
+    self.os_r = [1.75, 0]
+    self.os_p_move = np.stack((np.linspace([0, 3], [2, -2], self.N), np.linspace([2, 5], [-1, -2], self.N)), axis=0)
+    self.os_r_move = [0, 1.5]
     self.ko_x = 5
     self.ko_u = 1
 
@@ -201,10 +201,15 @@ if __name__ == '__main__':
                         fill=False)
     axs.add_patch(circle)
 
+
+  plt.grid()
+  axs.axis('equal')
+  plt.axis([-8, 8, -8, 8])
+  plt.scatter(xs[0, 0], xs[1, 0])
   for k in range(prob.N):
     axs.axis('equal')
     plt.axis([-8, 8, -8, 8])
-    plt.scatter(xs[0, k], xs[1, k])
+    plt.scatter(xs[0, k+1], xs[1, k+1])
     for j in range(len(prob.os_r_move)):
       circle = plt.Circle(prob.os_p_move[j][k], prob.os_r_move[j], color='r', linewidth=2,
                           fill=False)

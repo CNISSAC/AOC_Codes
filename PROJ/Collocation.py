@@ -11,11 +11,11 @@ class collocation:
 
     # time horizon and segments
     self.tf = 10.0
-    self.N = 32
+    self.N = 40
     self.h = self.tf / self.N
 
     # cost function parameters
-    self.Q = np.diag([0, 0, 0, 0, 0])
+    self.Q = np.diag([1, 1, 0, 0, 0])
     self.R = np.diag([1, 1])
     self.Qf = np.diag([5, 5, 1, 1, 1])
 
@@ -25,9 +25,9 @@ class collocation:
 
     # add disk obstacles
     self.os_p = [[-2.5, 2], [-1, 0]]
-    self.os_r = [1, 0]
+    self.os_r = [1.75, 0]
     self.os_p_move = np.stack((np.linspace([0, 3], [1, 0], self.N), np.linspace([2, 5], [-1, -2], self.N)), axis=0)
-    self.os_r_move = [0.25,2]
+    self.os_r_move = [0,1.5]
 
 
   def f(self, k, x, u):
@@ -214,6 +214,9 @@ if __name__ == '__main__':
                         fill=False)
     axs.add_patch(circle)
 
+
+  plt.grid()
+
   for k in range(prob.N):
     axs.axis('equal')
     plt.axis([-8, 8, -8, 8])
@@ -226,4 +229,7 @@ if __name__ == '__main__':
     if k != prob.N - 1:
       for j in range(len(prob.os_r_move)):
         axs.patches.pop()
+  axs.axis('equal')
+  plt.axis([-8, 8, -8, 8])
+  plt.scatter(xs[0, 40], xs[1, 40])
   plt.show()

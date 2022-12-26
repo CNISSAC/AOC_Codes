@@ -60,17 +60,18 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
     num_measurment = int(TF*update_rate)
     # generate random measurements of moving obstacle
     os_p_move=np.zeros((3,num_measurment,2))
-    os_p_move[0,:,:] = os_mearsurement([-2, -5],[-1, 6],num_measurment,sigma=0.001)
-    os_p_move[1,:,:] = os_mearsurement([2, 10], [-2, -5], num_measurment, sigma=0.001)
+
+    os_p_move[0, :, :] = os_mearsurement([-2, -5], [-1, 6], num_measurment, sigma=0.001)
+    os_p_move[1, :, :] = os_mearsurement([1, 10], [1, -3], num_measurment, sigma=0.001)
     os_p_move[2, math.ceil(num_measurment/2):, :] = os_mearsurement([3, -6], [-4, 7], num_measurment-math.ceil(num_measurment/2),sigma= 0.001)
-    os_r_move = [0.25, 2, 2]
+    os_r_move = [0, 0, 2]
     # predicted positions of moving obstacles
     os_p_predicted = np.zeros_like(os_p_move)
     # static obstacles
     os_p = [[-2.5, 2], [-1, 0]]
-    os_r = [0.25, 0]
+    os_r = [0, 0]
     # initial state
-    x0 = np.array([-10, -5, 1.2, 0, 0])
+    x0 = np.array([-3, -2, 1.2, 0, 0])
     xs = np.zeros((np.size(x0), N_all+1))
     xs[:, 0] = x0
     # dicts of obstacles measurement
@@ -89,7 +90,7 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
         for i in is_new.keys():
             if is_new[i]==True:
                 # kfs[i]=KalmanFilter(control_rate/update_rate)
-                kfs[i] = KF(control_rate / update_rate)
+                kfs[i] = KF(1 / update_rate)
 
         for i in range(2):
             measures[i]=os_p_move[i,k,:]
@@ -147,5 +148,5 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
 
     plt.show()
 
-fun(TF=2,update_rate=5,control_rate=20)
+fun(TF=3,update_rate=5,control_rate=20)
 print('程序运行时间:%s毫秒' % ((T2 - T1)*1000))

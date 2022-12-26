@@ -170,4 +170,4 @@ def fun(TF,update_rate,control_rate):  # update_rate is the rate of measurment l
 
     plt.show()
 
-fun(TF=3,update_rate=6,control_rate=12)
+fun(TF=3,update_rate=6,control_rate=18)
